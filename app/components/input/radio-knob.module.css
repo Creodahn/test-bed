@@ -1,0 +1,95 @@
+.radio-knob-container {
+  border-radius: 100%;
+  height: var(--size);
+  margin: 100px;
+  position: relative;
+  width: var(--size);
+
+  > .connector {
+    background-color: black;
+    position: absolute;
+    width: 1px;
+  }
+
+  > .knob-container {
+    --knob-size: calc(var(--size) * .4);
+    --offset: calc(50% + (var(--knob-size) / 2 * -1));
+
+    height: var(--knob-size);
+    left: var(--offset);
+    position: absolute;
+    top: var(--offset);
+    width: var(--knob-size);
+
+    > .knob {
+      background-color: black;
+      border: 0;
+      border-radius: 100%;
+      cursor: pointer;
+      height: inherit;
+      position: relative;
+      transition: transform .3s ease-in-out;
+      width: inherit;
+
+      &::after {
+        background-color: red;
+        bottom: 100%;
+        content: '';
+        height: calc(var(--size) / 3.25);
+        position: absolute;
+        width: 1px;
+        z-index: -1;
+      }
+
+      &::before {
+        background-color: white;
+        border-top: 6px solid black;
+        border-top-left-radius: 100%;
+        border-top-right-radius: 100%;
+        content: '';
+        height: 50px;
+        left: 50%;
+        position: absolute;
+        top: -10px;
+        transform: translateX(-50%);
+        width: 20px;
+      }
+    }
+  }
+
+  > .option {
+    cursor: pointer;
+    position: absolute;
+
+    > input {
+      display: none;
+    }
+
+    > span {
+      border-bottom: 1px solid black;
+      box-sizing: border-box;
+      display: inline-block;
+      padding: 8px 12px 8px 0;
+      transition: all .3s ease-in-out;
+      width: max-content;
+
+      &:has(+ input:checked) {
+        font-weight: 600;
+        padding: 8px 0 8px 12px;
+      }
+
+      &.invert-padding {
+        padding: 8px 0 8px 12px;
+
+        &:has(+ input:checked) {
+          padding: 8px 12px 8px 0;
+        }
+      }
+
+      &.top-border {
+        border-bottom: 0;
+        border-top: 1px solid black;
+      }
+    }
+  }
+}

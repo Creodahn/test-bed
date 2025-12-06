@@ -1,12 +1,16 @@
 import { pageTitle } from 'ember-page-title';
-import { WelcomePage } from 'ember-welcome-page';
+import RadioKnob from 'test-bed/components/input/radio-knob';
 
 <template>
   {{pageTitle "TestBed"}}
 
-  {{outlet}}
-
-  {{! The following component displays Ember's default welcome message. }}
-  <WelcomePage />
-  {{! Feel free to remove this! }}
+  <RadioKnob @size={{250}} as |RK|>
+    <RK.knob />
+    <RK.option>Option 1</RK.option>
+    <RK.option>Option 2</RK.option>
+    <RK.option>Option 3</RK.option>
+    <RK.option>Option 4</RK.option>
+    <RK.option>Option 5</RK.option>
+    <RK.option>Option 6</RK.option>
+  </RadioKnob>
 </template>
