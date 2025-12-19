@@ -18,7 +18,7 @@ export default class Core extends Component {
   get mappedClasses() {
     return this.classesToMap.map(css => {
       let camelized = camelize(css)
-      let value = this[camelized];
+      let value = this[camelized] ?? this.args[camelized];
 
       return { css: this.styles[css], value };
     }).filter(({ value }) => value);
