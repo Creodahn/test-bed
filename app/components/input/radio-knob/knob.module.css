@@ -1,0 +1,35 @@
+.knob-container {
+  --offset: calc(50% + (var(--size) / 2) * 1px);
+
+  height: calc(var(--size) * 1px);
+  left: var(--offset);
+  position: absolute;
+  top: var(--offset);
+  width: calc(var(--size) * 1px);
+
+  > .knob {
+    background-color: black;
+    border: 0;
+    border-radius: 100%;
+    cursor: pointer;
+    height: inherit;
+    position: relative;
+    transform: rotateZ(calc(var(--angle) * 1deg));
+    transition: transform .3s ease-in-out;
+    width: inherit;
+
+    &::before {
+      background-color: white;
+      border-top: 6px solid black;
+      border-top-left-radius: 100%;
+      border-top-right-radius: 100%;
+      content: '';
+      height: 50px;
+      left: 50%;
+      position: absolute;
+      top: -10px;
+      transform: translateX(-50%);
+      width: 20px;
+    }
+  }
+}

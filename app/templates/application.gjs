@@ -2,11 +2,11 @@ import { pageTitle } from 'ember-page-title';
 import RadioKnob from 'test-bed/components/input/radio-knob';
 
 <template>
-  {{pageTitle "TestBed"}}
+  {{pageTitle "Testbed"}}
 
   <RadioKnob @size={{250}} as |RK|>
     <RK.knob />
-    <RK.option>Option 1</RK.option>
+    <RK.option checked="true">Option 1</RK.option>
     <RK.option>Option 2</RK.option>
     <RK.option>Option 3</RK.option>
     <RK.option>Option 4</RK.option>

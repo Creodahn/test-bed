@@ -1,0 +1,47 @@
+.option {
+  cursor: pointer;
+  left: calc(var(--x) * 1px);
+  position: absolute;
+  top: calc(var(--y) * 1px);
+
+  > input {
+    display: none;
+  }
+
+  > span {
+    --border-width: 1px;
+    --border-style: var(--border-width) solid black;
+    --padding: 8px 12px 8px 0;
+    --padding-checked: 8px 0 8px 12px;
+
+    box-sizing: border-box;
+    display: inline-block;
+    padding: var(--padding);
+    transition: all .3s ease-in-out;
+    width: max-content;
+
+    &:has(+ input:checked) {
+      --border-width: 2px;
+
+      font-weight: 600;
+      padding: var(--padding-checked);
+    }
+
+    &.bottom-border {
+      border-bottom: var(--border-style);
+    }
+
+    &.invert-padding {
+      padding: var(--padding-checked);
+
+      &:has(+ input:checked) {
+        padding: var(--padding);
+      }
+    }
+
+    &.top-border {
+      border-bottom: 0;
+      border-top: var(--border-style);
+    }
+  }
+}
