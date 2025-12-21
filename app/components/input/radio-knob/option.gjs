@@ -7,11 +7,12 @@ import styles from './option.module.css';
 export default class InputRadioKnobOption extends Core {
   #setupRun = false;
   baseClass = styles.option;
-  classesToMap = ['bottom-border', 'invert-padding', 'top-border'];
+  classesToMap = ['enable-transitions', 'invert-padding'];
   elementsToRegister = [{ selector: 'input' }, { selector: 'span' }];
-  propsToMap = ['x', 'y'];
+  propsToMap = ['x', 'y', 'rotation'];
   styles = styles;
 
+  @tracked enableTransitions = false;
   @tracked isActive = false;
   @tracked position;
   @tracked x;
@@ -47,6 +48,19 @@ export default class InputRadioKnobOption extends Core {
     return this.size / 2;
   }
 
+  get rotation() {
+    if (!this.specificAngle) return 0;
+
+    let rotation = this.specificAngle - 90;
+
+    // Flip text on bottom half so it's readable
+    if (this.specificAngle > 180 && this.specificAngle < 360) {
+      rotation += 180;
+    }
+
+    return rotation;
+  }
+
   get size() {
     return this.args.size;
   }
@@ -66,11 +80,11 @@ export default class InputRadioKnobOption extends Core {
     let initX = Math.ceil(radius - radius * Math.sin(rad));
     let initY = Math.ceil(radius + radius * Math.cos(rad));
 
-    this.modifyCoordinates(initX, initY);
+    this.#modifyCoordinates(initX, initY);
   };
 
   // modify coordinates to take height and width into account based on position in circle
-  modifyCoordinates = (x, y) => {
+  #modifyCoordinates = (x, y) => {
     let { height, width } = this.baseElement.getBoundingClientRect();
     let modifiedHeight = y < 180 ? -1 * height : 0;
     let modifiedWidth = x < 180 ? -1 * width : 0 ;
@@ -89,6 +103,11 @@ export default class InputRadioKnobOption extends Core {
 
     this.#calculatePosition();
     this.#setupRun = true;
+
+    // Enable transitions after initial render
+    requestAnimationFrame(() => {
+      this.enableTransitions = true;
+    });
   }
 
   <template>

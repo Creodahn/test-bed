@@ -10,15 +10,24 @@
 
   > span {
     --border-width: 1px;
-    --border-style: var(--border-width) solid black;
     --padding: 8px 12px 8px 0;
     --padding-checked: 8px 0 8px 12px;
 
+    border-bottom: var(--border-width) solid black;
     box-sizing: border-box;
     display: inline-block;
     padding: var(--padding);
-    transition: all .3s ease-in-out;
+    transform: rotate(calc(var(--rotation) * 1deg));
+    transform-origin: center;
+    white-space: nowrap;
     width: max-content;
+
+    &.enable-transitions {
+      transition:
+        border .3s ease-in-out,
+        font-weight .3s ease-in-out,
+        padding .3s ease-in-out;
+    }
 
     &:has(+ input:checked) {
       --border-width: 2px;
@@ -27,21 +36,12 @@
       padding: var(--padding-checked);
     }
 
-    &.bottom-border {
-      border-bottom: var(--border-style);
-    }
-
     &.invert-padding {
       padding: var(--padding-checked);
 
       &:has(+ input:checked) {
         padding: var(--padding);
       }
-    }
-
-    &.top-border {
-      border-bottom: 0;
-      border-top: var(--border-style);
     }
   }
 }

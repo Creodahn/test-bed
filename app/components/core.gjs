@@ -43,18 +43,40 @@ export default class Core extends Component {
     }, {});
   }
 
+  #processWithHandler = (selector, handler, name) => {
+    const parsed = selector.slice(1).trim();
+    return {
+      query: handler(parsed),
+      attrName: name ?? camelize(parsed).replace(/[^a-zA-Z]/g, ''),
+    };
+  };
+
+  #processTagSelector = (selector, name) => {
+    const query = selector.trim().toLowerCase();
+    return {
+      query,
+      attrName: name ?? camelize(query).replace(/[^a-zA-Z]/g, ''),
+    };
+  };
+
   #registerElements = element => {
     this.baseElement = element;
 
+    const selectorHandlers = {
+      '.': (sel) => `.${this.styles[sel.toLowerCase()]}`,
+      '#': (sel) => `#${sel}`,
+    };
+
     for (let { name, selector } of this.elementsToRegister) {
-      let isClass = selector[0] === '.';
-      let parsedSelector = (isClass ? selector.slice(1) : selector).trim().toLowerCase();
-      let query = isClass ? `.${this.styles[parsedSelector]}` : parsedSelector;
-      let attrName = name ?? camelize(parsedSelector).replace(/[^a-z]/g, '');
+      const firstChar = selector[0];
+      const handler = selectorHandlers[firstChar];
+      const { query, attrName } = handler
+        ? this.#processWithHandler(selector, handler, name)
+        : this.#processTagSelector(selector, name);
 
       this[attrName] = this.baseElement.querySelector(query);
     }
-  }
+  };
 
   setupComponent = modifier(element => {
     this.#registerElements(element);
