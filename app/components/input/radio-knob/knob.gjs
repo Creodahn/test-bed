@@ -14,8 +14,7 @@ export default class InputRadioKnobKnob extends Core {
   @tracked _angle = 0;
 
   get activeOption() {
-    let normalizedAngle = ((this.angle % 360) + 360) % 360;
-    return (normalizedAngle / this.shiftAngle) % this.args.optionCount;
+    return (this.normalizedAngle / this.shiftAngle) % this.args.optionCount;
   }
 
   get angle() {
@@ -26,6 +25,10 @@ export default class InputRadioKnobKnob extends Core {
     this._angle += change;
   }
 
+  get normalizedAngle() {
+    return ((this.angle % 360) + 360) % 360;
+  }
+
   get shiftAngle() {
     return this.args.angle;
   }
@@ -34,13 +37,23 @@ export default class InputRadioKnobKnob extends Core {
     return this.args.size * .60;
   }
 
+  calculateShortestPath = targetNormalized => {
+    let diff = targetNormalized - this.normalizedAngle;
+
+    if (diff > 180) return diff - 360;
+    if (diff < -180) return diff + 360;
+
+    return diff;
+  }
+
   updateAngleFromOutside = modifier(() => {
     let { activeOption } = this.args;
 
     if ([undefined, null, this.activeOption].includes(activeOption)) return;
 
     next(this, () => {
-      this.angle = (this.shiftAngle * activeOption) - this.angle;
+      // Apply the shortest distance to the normalized angle
+      this.angle = this.calculateShortestPath(this.shiftAngle * activeOption);
     });
   })
 
