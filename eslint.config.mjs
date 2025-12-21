@@ -61,6 +61,9 @@ export default [
         ...globals.browser,
       },
     },
+    rules: {
+      'ember/no-runloop': 'off',
+    },
   },
   {
     files: ['tests/**/*-test.{js,gjs}'],
